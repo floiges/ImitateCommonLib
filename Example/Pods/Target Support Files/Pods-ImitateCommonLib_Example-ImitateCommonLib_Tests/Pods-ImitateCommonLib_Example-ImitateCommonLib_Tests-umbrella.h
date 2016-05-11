@@ -1,0 +1,6 @@
+#import <UIKit/UIKit.h>
+
+
+FOUNDATION_EXPORT double Pods_ImitateCommonLib_Example_ImitateCommonLib_TestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_ImitateCommonLib_Example_ImitateCommonLib_TestsVersionString[];
+
