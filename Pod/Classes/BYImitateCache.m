@@ -8,12 +8,12 @@
 
 #import "BYImitateCache.h"
 
-static const NSString *diskPath = @"com.imitate.cache";
+static NSString *diskPath = @"com.imitate.cache";
 static CGFloat maxCacheAge = 24 * 60 * 60 * 60 * 2; // 缓存2天
 
 @interface BYImitateCache ()
 
-@property (nonatomic, assign) dispatch_queue_t serialQ;
+@property (nonatomic, strong) dispatch_queue_t serialQ;
 @property (nonatomic, strong) NSCache *cache;// 内存缓存
 @property (nonatomic, copy) NSString *diskURLString;
 
@@ -33,14 +33,10 @@ static CGFloat maxCacheAge = 24 * 60 * 60 * 60 * 2; // 缓存2天
 - (instancetype)init {
     if (self = [super init]) {
         _serialQ = dispatch_queue_create("com.imitate.cache", DISPATCH_QUEUE_SERIAL);
-        _cache = [[NSCache alloc] init];
         NSArray *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _diskURLString = [[documents firstObject] stringByAppendingPathComponent:diskPath];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        // 创建本地缓存路径
-        if (![fileManager fileExistsAtPath:_diskURLString isDirectory:YES]) {
-            [fileManager createDirectoryAtPath:_diskURLString withIntermediateDirectories:YES attributes:nil error:nil];
-        }
+        _cache = [[NSCache alloc] init];
+        _cache.name = _diskURLString;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(clearMemory)
@@ -48,32 +44,32 @@ static CGFloat maxCacheAge = 24 * 60 * 60 * 60 * 2; // 缓存2天
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(cleanDisk)
+                                                 selector:@selector(clearDisk)
                                                      name:UIApplicationWillTerminateNotification
                                                    object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanDisk)
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearDisk)
                                                      name:UIApplicationDidEnterBackgroundNotification
                                                    object:nil];
     }
     return self;
 }
 
-- (void)cacheResponse:(id)response forURL:(NSString *)url {
+- (void)cacheResponse:(NSData *)response forURL:(NSString *)url {
     // 串行队列中缓存
     dispatch_async(self.serialQ, ^{
-        [self.cache setObject:response forKey:url];
+        [self.cache setObject:response forKey:url cost:response.length];
         NSFileManager *fileManager = [[NSFileManager alloc] init];
-        if (![fileManager fileExistsAtPath:self.diskURLString isDirectory:YES]) {
-            [fileManager createDirectoryAtPath:self.diskURLString withIntermediateDirectories:YES attributes:nil error:nil];
+        if (![fileManager fileExistsAtPath:self.diskURLString]) {
+            [fileManager createDirectoryAtPath:self.diskURLString withIntermediateDirectories:YES attributes:nil error:NULL];
         }
-        // 根据url建立缓存目录
-        NSString *fileURL = [self.diskURLString stringByAppendingPathComponent:url];
         
-        [response writeToFile:fileURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [fileManager createFileAtPath:[self.diskURLString stringByAppendingPathComponent:url]
+                             contents:response
+                           attributes:nil];
     });
 }
 
-- (id)cachedResponseForURL:(NSString *)url {
+- (NSData *)cachedResponseForURL:(NSString *)url {
     if ([self.cache objectForKey:url]) {
         return [self.cache objectForKey:url];
     }
@@ -81,16 +77,13 @@ static CGFloat maxCacheAge = 24 * 60 * 60 * 60 * 2; // 缓存2天
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *fileURL = [self.diskURLString stringByAppendingPathComponent:url];
     if ([fileManager fileExistsAtPath:fileURL]) {
-        NSError *error = nil;
-        NSString *response = [NSString stringWithContentsOfFile:fileURL
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:&error];
-        if (!error) {
-            return response;
-        } else {
-            return nil;
+        NSData *response = [NSData dataWithContentsOfFile:fileURL];
+        if (response) {
+            [self.cache setObject:response forKey:url cost:response.length];
         }
+        return response;
     }
+    return nil;
 }
 
 - (void)clearMemory {

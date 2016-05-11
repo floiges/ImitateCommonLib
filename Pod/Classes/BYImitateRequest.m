@@ -11,6 +11,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/AFHTTPSessionManager.h>
 #import <CommonCrypto/CommonDigest.h>
+#import "BYImitateCache.h"
 
 @interface NSString (md5)
 
@@ -43,7 +44,7 @@ static BOOL by_enableDebug = NO;
 static BOOL by_autoEncode = NO;
 static BOOL by_shouldCallbackOnCancleRequest = YES;
 static NSDictionary *by_httpHeaders = nil;
-static BYNetworkStatus by_netWorkStatus = kBYNetworkStatusUnknown;
+//static BYNetworkStatus by_netWorkStatus = kBYNetworkStatusUnknown;
 static BYRequestType by_requestType = kBYRequesTypeJSON;
 static BYResponseType by_responseType = kBYResponseTypeJSON;
 static NSMutableArray *by_requestTasks = nil;
@@ -93,7 +94,7 @@ shouldCallbackOnCancleRequest:(BOOL)shouldCallbackOnCancleRequest {
 + (NSMutableArray *)allTasks {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (by_requestTasks = nil) {
+        if (by_requestTasks == nil) {
             by_requestTasks =  [[NSMutableArray alloc] init];
         }
     });
@@ -221,8 +222,21 @@ shouldCallbackOnCancleRequest:(BOOL)shouldCallbackOnCancleRequest {
     }
     
     BYURLSessionTask *session = nil;
+    BYImitateCache *cache = [BYImitateCache sharedCache];
     
     if (method == 1) {
+        if ([cache cachedResponseForURL:url]) {
+            NSString *response = [[NSString alloc] initWithData:[cache cachedResponseForURL:url]
+                                                       encoding:NSUTF8StringEncoding];
+            [self successResponse:response callBack:success];
+            if ([self isDebug]) {
+                [self logWithSuccessResponse:response
+                                         url:absoluteString
+                                      params:params];
+            }
+            return nil;
+        }
+        
         session = [manager GET:url parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
             if (progress) {
                 progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
@@ -248,6 +262,18 @@ shouldCallbackOnCancleRequest:(BOOL)shouldCallbackOnCancleRequest {
             }
         }];
     } else if (method == 2){
+        if ([cache cachedResponseForURL:url]) {
+            NSString *response = [[NSString alloc] initWithData:[cache cachedResponseForURL:url]
+                                                       encoding:NSUTF8StringEncoding];
+            [self successResponse:response callBack:success];
+            if ([self isDebug]) {
+                [self logWithSuccessResponse:response
+                                         url:absoluteString
+                                      params:params];
+            }
+            return nil;
+        }
+        
         session = [manager POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             if (progress) {
                 progress(uploadProgress.completedUnitCount, uploadProgress.totalUnitCount);
