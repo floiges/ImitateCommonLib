@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "ImitateCommonLib"
-  s.version          = "0.1.0"
+  s.version          = "0.3.0"
   s.summary          = "A short description of ImitateCommonLib."
 
 # This description is used to generate tags and improve search results.
@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 		Let me add a long description for this pod lib,while i did not know to write.
 		So, this is only a test for my self.
+		Again,This is a meaningful description!!!!
                        DESC
 
   s.homepage         = "https://github.com/floiges/ImitateCommonLib"
