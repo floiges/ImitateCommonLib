@@ -18,25 +18,27 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+		Let me add a long description for this pod lib,while i did not know to write.
+		So, this is only a test for my self.
                        DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/ImitateCommonLib"
+  s.homepage         = "https://github.com/floiges/ImitateCommonLib"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "刘亚东" => "yadong.liu@husor.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/ImitateCommonLib.git", :tag => s.version.to_s }
+  s.author           = { "floiges" => "floiges@163.com" }
+  s.source           = { :git => "https://github.com/floiges/ImitateCommonLib.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'ImitateCommonLib/Classes/**/*'
+  s.source_files = 'Pod/Classes/**/*'
   
   # s.resource_bundles = {
-  #   'ImitateCommonLib' => ['ImitateCommonLib/Assets/*.png']
+  #   'ImitateCommonLib' => ['Pod/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'AFNetworking', '~> 3.1.0'
+  s.dependency 'FMDB', '~> 2.6.2'
 end
