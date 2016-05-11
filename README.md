@@ -22,7 +22,7 @@ pod "ImitateCommonLib"
 
 ## Author
 
-刘亚东, yadong.liu@husor.com
+floiges, floiges@163.com
 
 ## License
 
