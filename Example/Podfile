@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ImitateCommonLib_Example' do
+  pod 'ImitateCommonLib', :path => '../'
+
+  target 'ImitateCommonLib_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
