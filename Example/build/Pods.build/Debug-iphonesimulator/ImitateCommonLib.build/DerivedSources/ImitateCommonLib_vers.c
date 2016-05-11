@@ -1,0 +1,1 @@
+ const unsigned char ImitateCommonLibVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:ImitateCommonLib  PROJECT:Pods-1" "\n"; const double ImitateCommonLibVersionNumber __attribute__ ((used)) = (double)1.;
