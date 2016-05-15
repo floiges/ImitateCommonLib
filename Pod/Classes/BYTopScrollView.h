@@ -34,7 +34,7 @@ static CGFloat kTopScrollHeight = 40.0;
 /**
  *  传递类目数组
  */
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSArray<NSString *> *titleArray;
 /**
  *  字体大小
  */

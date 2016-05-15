@@ -42,4 +42,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking', '~> 3.1.0'
   s.dependency 'FMDB', '~> 2.6.2'
+  s.dependency 'BlocksKit', '~> 2.2.5'
 end
