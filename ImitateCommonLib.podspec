@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "ImitateCommonLib"
-  s.version          = "0.4.0"
+  s.version          = "0.5.0"
   s.summary          = "A short description of ImitateCommonLib."
 
 # This description is used to generate tags and improve search results.
@@ -34,9 +34,9 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'ImitateCommonLib' => ['Pod/Assets/*.png']
-  # }
+  s.resource_bundles = {
+     'ImitateCommonLib' => ['Pod/Resource/*.png']
+  }
 
   s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
