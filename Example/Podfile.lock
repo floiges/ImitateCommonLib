@@ -14,11 +14,27 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - BlocksKit (2.2.5):
+    - BlocksKit/All (= 2.2.5)
+  - BlocksKit/All (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+    - BlocksKit/MessageUI
+    - BlocksKit/UIKit
+  - BlocksKit/Core (2.2.5)
+  - BlocksKit/DynamicDelegate (2.2.5)
+  - BlocksKit/MessageUI (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - BlocksKit/UIKit (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - ImitateCommonLib (0.1.0):
+  - ImitateCommonLib (0.6.0):
     - AFNetworking (~> 3.1.0)
+    - BlocksKit (~> 2.2.5)
     - FMDB (~> 2.6.2)
 
 DEPENDENCIES:
@@ -30,7 +46,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  ImitateCommonLib: f6a1aaea71e6f605732eaa12fc27045fe856d224
+  ImitateCommonLib: c0f2f176af1b7fc1cea8b800747370bdc6e2e939
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 3445e2038fa615790fdf0a7fa82ca15f46b95be5
+
+COCOAPODS: 1.0.1

@@ -1,8 +1,8 @@
 {
   "name": "ImitateCommonLib",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "summary": "A short description of ImitateCommonLib.",
-  "description": "Let me add a long description for this pod lib,while i did not know to write.\nSo, this is only a test for my self.",
+  "description": "Let me add a long description for this pod lib,while i did not know to write.\nSo, this is only a test for my self.\nAgain,This is a meaningful description!!!!",
   "homepage": "https://github.com/floiges/ImitateCommonLib",
   "license": "MIT",
   "authors": {
@@ -10,19 +10,26 @@
   },
   "source": {
     "git": "https://github.com/floiges/ImitateCommonLib.git",
-    "tag": "0.1.0"
+    "tag": "0.6.0"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "Pod/Classes/**/*",
-  "public_header_files": "Pod/Classes/**/*.h",
+  "source_files": "Pod/Classes/**/*.{h,m}",
+  "resource_bundles": {
+    "ImitateCommonLib": [
+      "Pod/**/*.{png,jpg,xib}"
+    ]
+  },
   "dependencies": {
     "AFNetworking": [
       "~> 3.1.0"
     ],
     "FMDB": [
       "~> 2.6.2"
+    ],
+    "BlocksKit": [
+      "~> 2.2.5"
     ]
   }
 }
